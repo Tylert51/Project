@@ -1,0 +1,225 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+	
+		<title>Matching Game</title>
+		
+		<style>
+
+			body {
+				background-image: url("img/casinoFelt.jpg");
+				background-size: cover;
+			}
+
+			img {
+				width: 200px;
+				height: 200px;
+
+				padding-left: 10px;
+				padding-right: 10px;
+			}
+
+			div {
+
+				text-align: center;
+
+			}
+
+			h1 {
+				text-align: center;
+				color: white;
+				font: bold 28pt comic sans ms;
+			}
+
+			h2 {
+				text-align: center;
+				color: white;
+				font: bold 32pt comic sans ms;
+			}
+			
+			button {
+				font: bold 20pt comic sans ms;
+			}
+			
+
+		</style>
+		
+		<script>
+
+			let bunnyImg, catImg, cowImg, donkeyImg, horseImg, pigImg, sheepImg, turkeyImg, blankImg,
+			cardArr, answerArr,
+			score, scoreSpan,
+			firstChosenCard, cardsMatchedArr,
+			canClick,
+			displayMsgH;
+		
+			function initialize() {
+
+				card1 = document.getElementById("card1");
+
+				bunnyImg = "img/bunny.jpg";
+				catImg = "img/cat.jpg";
+				cowImg = "img/cow.jpg";
+				donkeyImg = "img/donkey.jpg";
+				horseImg = "img/horse.jpg";
+				pigImg = "img/pig.jpg";
+				sheepImg = "img/sheep.jpg";
+				turkeyImg = "img/turkey.jpg";
+				blankImg = "img/blankcards.jpg";
+
+				cardArr = [
+					card1, card2, card3, card4, 
+					card5, card6, card7, card8,
+					card9, card10, card11, card12,
+					card13, card14, card15, card16
+				];
+
+				answerArr = [
+					bunnyImg, horseImg, pigImg, turkeyImg,
+					pigImg, donkeyImg, catImg, horseImg, 
+					donkeyImg, cowImg, sheepImg, bunnyImg, 
+					turkeyImg, sheepImg, cowImg, catImg
+				]
+
+				cardsMatchedArr = [];
+		
+				score = 0;
+				scoreSpan = document.getElementById("scoreOut");
+				firstChosenCard = null;
+				canClick = true;
+
+				displayMsgH = document.getElementById("displayMsg");
+
+				for(let i = 0; i < cardArr.length; i++) {
+					
+					cardArr[i] = document.getElementById(`card${i+1}`);
+				}
+			
+			}
+
+			let changePic = (num, img) => {
+				
+				if (canClick) {
+
+					if(firstChosenCard !== num && !cardsMatchedArr.includes(num)) {
+						cardArr[num].src = answerArr[num];
+						score++;
+						scoreSpan.innerHTML = score;
+
+						if(score % 2 === 0 && score !== 0) {
+
+							canClick = false;
+
+
+							if (answerArr[firstChosenCard] === answerArr[num]) {
+								cardsMatchedArr.push(firstChosenCard, num);
+							}
+
+							setTimeout( () => {
+								
+								for(let i = 0; i < cardArr.length; i++) {
+									if(!cardsMatchedArr.includes(i)) {
+										cardArr[i].src = blankImg;
+									}
+								}
+								canClick = true;
+
+							}, 2000);	
+
+
+
+
+						}
+
+						firstChosenCard = (firstChosenCard === null) ? num : null;
+					}	
+					
+					if (cardsMatchedArr.length === answerArr.length) {
+						displayMsgH.innerHTML = `Congrats you have matched all the cards with a score of ${score}!!!!`
+					}
+					
+
+				}	
+			}
+
+			function restart() {
+				for(let i = 0; i < cardArr.length; i++) {
+					
+					cardArr[i].src = blankImg;
+					
+				}
+
+				score = 0;
+				scoreSpan.innerHTML = score;
+
+				firstChosenCard = null;
+				cardsMatchedArr = [];
+
+				displayMsgH.innerHTML = "Welcome to my matching game!!!";
+			}
+		
+		</script>
+		
+	</head>
+	
+
+	<body onload = "initialize();">
+
+		
+		<h1 id = "displayMsg">
+			Welcome to my matching game!!! <br/>
+			<br />
+			Instructions can be found <a href = "instructions.html">here</a>
+
+			<br />
+			<br />
+
+		</h1>
+		
+
+		<h2>
+			Score: <span id = "scoreOut">0</span>
+
+		</h2>
+
+		<div>        
+			<img onclick = "changePic(0);" src = "img/blankcards.jpg" id = "card1"/>
+			<img onclick = "changePic(1);" src = "img/blankcards.jpg" id = "card2"/>
+			<img onclick = "changePic(2);" src = "img/blankcards.jpg" id = "card3"/>
+			<img onclick = "changePic(3);" src = "img/blankcards.jpg" id = "card4"/>
+		</div>
+
+		<div>
+			<img onclick = "changePic(4);" src = "img/blankcards.jpg" id = "card5"/>
+			<img onclick = "changePic(5);" src = "img/blankcards.jpg" id = "card6"/>
+			<img onclick = "changePic(6);" src = "img/blankcards.jpg" id = "card7"/>
+			<img onclick = "changePic(7);" src = "img/blankcards.jpg" id = "card8"/>
+		</div>
+
+		<div>
+			<img onclick = "changePic(8);" src = "img/blankcards.jpg" id = "card9"/>
+			<img onclick = "changePic(9);" src = "img/blankcards.jpg" id = "card10"/>
+			<img onclick = "changePic(10);" src = "img/blankcards.jpg" id = "card11"/>
+			<img onclick = "changePic(11);" src = "img/blankcards.jpg" id = "card12"/>
+		</div>
+
+		<div>
+			<img onclick = "changePic(12);" src = "img/blankcards.jpg" id = "card13"/>
+			<img onclick = "changePic(13);" src = "img/blankcards.jpg" id = "card14"/>
+			<img onclick = "changePic(14);" src = "img/blankcards.jpg" id = "card15"/>
+			<img onclick = "changePic(15);" src = "img/blankcards.jpg" id = "card16"/>	
+		</div>
+
+		<div>
+			<br />
+			<br />
+			<button onclick = "restart();">Reset</button>
+		</div>
+
+	
+	
+	</body>
+	
+	
+</html>
